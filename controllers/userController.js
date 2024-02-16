@@ -1,7 +1,7 @@
 const {User, Thought} = require('../models');
 
 module.exports = {
-  // Get All Users
+  // Get All Users - GET
   async getUsers(req, res) {
     try {
       const users = await User.find().populate('thoughts').populate('friends');
@@ -11,7 +11,7 @@ module.exports = {
     }
   },
 
-  // Get Single User
+  // Get Single User - GET
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({_id: req.params.userId}).populate('thoughts').populate('friends');
@@ -24,7 +24,7 @@ module.exports = {
     }
   },
 
-  // Create User
+  // Create User - POST
   async createUser(req, res) {
     try {
       const user = await User.create(req.body);
@@ -35,7 +35,7 @@ module.exports = {
     }
   },
 
-    // Update User
+    // Update User - PUT
     async updateUser(req, res) {
       try {
         const user = await User.findOneAndUpdate(
@@ -52,7 +52,7 @@ module.exports = {
       }
     },
 
-  // Delete User
+  // Delete User - DELETE
   async deleteUser(req, res) {
     try {
       const user = await User.findOneAndDelete({ _id: req.params.userId });
