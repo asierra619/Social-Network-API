@@ -73,4 +73,48 @@ module.exports = {
       res.status(500).json(error);
     }
   },
+
+  // Add a Reaction to a Thought - POST
+  async addReaction(req, res) {
+    console.log('Woah, just take it easy, man.');
+    console.log(req.body);
+
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { assignments: req.body } },
+        { runValidators: true, new: true }
+      );
+
+      if (!thought) {
+        return res
+          .status(404)
+          .json({ message: 'No Brain Activity for :(' });
+      }
+
+      res.json(student);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  // Remove Reaction from a Thought - DELETE
+  async removeReaction(req, res) {
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { assignment: { assignmentId: req.params.reactionId } } },
+        { runValidators: true, new: true }
+      );
+
+      if (!thought) {
+        return res
+          .status(404)
+          .json({ message: 'No Brain Activity for :(' });
+      }
+
+      res.json(student);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
 };
